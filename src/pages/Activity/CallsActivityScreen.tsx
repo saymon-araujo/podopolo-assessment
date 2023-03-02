@@ -1,9 +1,9 @@
 import { StyleSheet, View } from "react-native";
 
-import { ACIcon, ACText, Spacer } from "../components";
-import { colors } from "../constants/colors";
+import { ACIcon, ACText, Spacer } from "../../components";
+import { colors } from "../../constants/colors";
 
-export default function Test() {
+export default function CallsActivityScreen() {
   return (
     <View style={styles.container}>
       <ACText>Texto Base</ACText>

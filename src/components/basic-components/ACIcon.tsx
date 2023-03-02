@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { scale } from "react-native-size-matters";
 import Feather from "@expo/vector-icons/Feather";
 
-import { colors } from "../constants/colors";
+import { colors } from "../../constants/colors";
 
 const sizes = {
   xxs: scale(8),
