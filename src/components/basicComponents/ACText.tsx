@@ -2,7 +2,7 @@ import React, { ReactNode } from "react";
 import { Text, TextStyle } from "react-native";
 import { scale } from "react-native-size-matters";
 
-import { colors } from "../constants/colors";
+import { colors } from "../../constants/colors";
 
 interface Props {
   children: ReactNode;

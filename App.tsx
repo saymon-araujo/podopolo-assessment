@@ -7,7 +7,7 @@ import {
   Lato_900Black,
 } from "@expo-google-fonts/lato";
 
-import Test from "./src/pages/test";
+import CallsActivityScreen from "./src/pages/Activity/CallsActivityScreen";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -24,7 +24,7 @@ export default function App() {
   return (
     <>
       <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent animated />
-      <Test />
+      <CallsActivityScreen />
     </>
   );
 }

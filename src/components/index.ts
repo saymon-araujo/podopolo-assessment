@@ -1,5 +1,7 @@
-import { ACText } from "./basic-components/ACText";
-import { ACIcon } from "./basic-components/ACIcon";
-import { Spacer } from "./basic-components/Spacer";
+import { ACText } from "./basicComponents/ACText";
+import { ACIcon } from "./basicComponents/ACIcon";
+import { Spacer } from "./basicComponents/Spacer";
 
-export { ACText, ACIcon, Spacer };
+import { MainHeader } from "./compoundComponents/MainHeader";
+
+export { ACText, ACIcon, Spacer, MainHeader };
