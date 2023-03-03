@@ -12,6 +12,6 @@ export interface CallDTO {
   via?: number;
 }
 
-type CallTypeOptions = "missed" | "answered" | "voicemail";
+export type CallTypeOptions = "missed" | "answered" | "voicemail";
 
 type DirectionOptions = "inbound" | "outbound";
