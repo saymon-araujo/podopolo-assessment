@@ -33,10 +33,33 @@ export default function CallsActivityScreen() {
       const date = handleFormatDate(item.created_at);
       const time = handleFormatDateTime(item.created_at);
 
-      return <ActivityItem item={item} typeOfCallInfo={typeOfCallInfo} date={date} time={time} />;
+      return (
+        <ActivityItem
+          item={item}
+          typeOfCallInfo={typeOfCallInfo}
+          date={date}
+          time={time}
+          onFinishArchiveAction={handleCurrentArchiveValueOfItem}
+        />
+      );
     },
     [activities]
   );
+
+  function handleCurrentArchiveValueOfItem(id: string) {
+    if (activities) {
+      const newState = activities.map((item) => {
+        if (item.id === id) {
+          return {
+            ...item,
+            is_archived: !item.is_archived,
+          };
+        }
+        return item;
+      });
+      setActivities(newState);
+    }
+  }
 
   useEffect(() => {
     fetchUserActivities();

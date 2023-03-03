@@ -1,17 +1,20 @@
 import { useState, useRef } from "react";
-import { View, StyleSheet, Animated, Easing, Pressable } from "react-native";
+import { View, StyleSheet, Animated, Easing, Pressable, Alert } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 
 import { ACIcon, ACText, Spacer } from "../../../components";
 import { VerticalDots } from "../../../components/compoundComponents/VerticalDots";
 import { CallDTO } from "../../../dtos/CallDTO";
 import { colors } from "../../../constants/colors";
+import { ArchiveButton } from "./ArchiveButton";
+import api from "../../../services/api";
 
 interface Props {
   item: CallDTO;
   typeOfCallInfo: ItemProps;
   date: string;
   time: string;
+  onFinishArchiveAction: (id: string) => void;
 }
 
 export interface ItemProps {
@@ -20,12 +23,13 @@ export interface ItemProps {
   text: string;
 }
 
-export function ActivityItem({ item, typeOfCallInfo, date, time }: Props) {
+export function ActivityItem({ item, typeOfCallInfo, date, time, onFinishArchiveAction }: Props) {
   const { color, icon, text } = typeOfCallInfo;
   const animatedController = useRef(new Animated.Value(0)).current;
 
   const [bodySectionHeight, setBodySectionHeight] = useState(0);
   const [isOpened, setIsOpened] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const bodyHeight = animatedController.interpolate({
     inputRange: [0, 1],
@@ -49,6 +53,22 @@ export function ActivityItem({ item, typeOfCallInfo, date, time }: Props) {
       }).start();
     }
     setIsOpened(!isOpened);
+  }
+
+  function handleArchiveAction() {
+    setIsLoading(true);
+    api
+      .patch(`/activities/${item.id}`, {
+        is_archived: !item.is_archived,
+      })
+      .then(() => {
+        onFinishArchiveAction(item.id);
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setIsLoading(false);
+        Alert.alert("Oops", "There was an error while doing the action. Please try again");
+      });
   }
 
   return (
@@ -157,6 +177,12 @@ export function ActivityItem({ item, typeOfCallInfo, date, time }: Props) {
                     <Spacer size="xxs" />
                   </>
                 )}
+
+                <ArchiveButton
+                  isArchived={item.is_archived}
+                  onPress={handleArchiveAction}
+                  loading={isLoading}
+                />
               </>
             </View>
           </Animated.View>
@@ -229,5 +255,6 @@ const styles = StyleSheet.create({
   bodyContainer: {
     position: "absolute",
     bottom: 0,
+    width: "100%",
   },
 });
