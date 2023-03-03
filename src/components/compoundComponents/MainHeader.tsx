@@ -4,13 +4,16 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { colors } from "../../constants/colors";
 import { screen } from "../../constants/screen";
 import { ACText, ACIcon } from "../index";
+import { ViewOptions } from "../../pages/Activity/CallsActivityScreen";
 import { VerticalDots } from "./VerticalDots";
 
 interface Props {
   title: string;
+  currentView: ViewOptions;
+  onChangeView: (viewToShow: ViewOptions) => void;
 }
 
-export function MainHeader({ title }: Props) {
+export function MainHeader({ title, currentView, onChangeView }: Props) {
   return (
     <View style={styles.container}>
       <View style={styles.headerTitleWrapper}>
@@ -24,23 +27,58 @@ export function MainHeader({ title }: Props) {
       </View>
 
       <View style={styles.headerActionsContainer}>
-        <TouchableOpacity style={styles.inboxActiveContainer}>
-          <ACText type="medium" size={14}>
+        <TouchableOpacity
+          onPress={() => {
+            onChangeView("inbox");
+          }}
+          style={[
+            styles.actionButtonContainer,
+            currentView === "inbox" && {
+              borderBottomColor: colors.primary,
+              borderBottomWidth: 3,
+              marginBottom: -3,
+            },
+          ]}
+        >
+          <View style={styles.buttonWrapper}>
+            <ACIcon
+              name="inbox"
+              color={currentView === "inbox" ? "text" : "textLight"}
+              specificSize={14}
+            />
+          </View>
+
+          <ACText type={currentView === "inbox" ? "medium" : "regular"} size={14}>
             Inbox
           </ACText>
         </TouchableOpacity>
 
         <VerticalDots />
 
-        <TouchableOpacity>
-          <ACText type="regular" size={14}>
-            All calls
-          </ACText>
-        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            onChangeView("archived");
+          }}
+          style={[
+            styles.actionButtonContainer,
+            currentView === "archived" && {
+              borderBottomColor: colors.primary,
+              borderBottomWidth: 3,
+              marginBottom: -3,
+            },
+          ]}
+        >
+          <View style={styles.buttonWrapper}>
+            <ACIcon
+              name="archive"
+              color={currentView === "archived" ? "text" : "textLight"}
+              specificSize={14}
+            />
+          </View>
 
-        <VerticalDots />
-        <TouchableOpacity>
-          <ACIcon name="sliders" color="textLight" size="sm" />
+          <ACText type={currentView === "archived" ? "medium" : "regular"} size={14}>
+            Archived
+          </ACText>
         </TouchableOpacity>
       </View>
     </View>
@@ -79,16 +117,19 @@ const styles = StyleSheet.create({
   headerActionsContainer: {
     flex: 1,
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     alignItems: "center",
     paddingHorizontal: 16,
     height: "100%",
+    alignSelf: "flex-end",
   },
-  inboxActiveContainer: {
-    borderBottomColor: colors.primary,
-    borderBottomWidth: 3,
-    marginBottom: -3,
+  actionButtonContainer: {
     height: "100%",
     justifyContent: "center",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  buttonWrapper: {
+    paddingRight: 6,
   },
 });
