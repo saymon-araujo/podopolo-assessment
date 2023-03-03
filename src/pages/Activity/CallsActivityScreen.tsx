@@ -118,9 +118,17 @@ export default function CallsActivityScreen() {
       />
 
       <View style={styles.content}>
-        {currentView === "inbox" && (
+        {currentView === "inbox" ? (
           <FlatList
-            data={activities}
+            data={activities?.filter((item) => item.is_archived === false)}
+            renderItem={renderActivities}
+            keyExtractor={(item) => item.id}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.list}
+          />
+        ) : (
+          <FlatList
+            data={activities?.filter((item) => item.is_archived)}
             renderItem={renderActivities}
             keyExtractor={(item) => item.id}
             showsVerticalScrollIndicator={false}
